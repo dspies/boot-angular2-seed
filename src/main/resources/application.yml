@@ -1,0 +1,29 @@
+server:
+  port: 8081
+---
+# Development:
+# Although devtools only runs in development mode, these configuration
+# settings should not be moved outside the 'document' (---) delimiters
+spring:
+  profiles: development
+  devtools:
+    restart:
+      additional-paths: ./dist/
+      additional-exclude: '**/*.js,**/*.html,**/*.css,**/*.svg,**/*.json'
+# ***spring.resources.static-locations*** is added below so that you don't
+# have to have an index.html file in one of the default locations in order
+# to serve your application in development mode.  Otherwise, you have to
+# have at least an index.html file in /static, /resource, or another default
+# directory or you will get a 404.  Also, you must have the class
+# StaticResourcesConfigurer in order to serve node_modules from /node_modules
+  resources:
+    static-locations: file:./dist/dev/,file:./node_modules/
+---
+# Test: Uncomment below to set test-specific configuration
+#spring:
+#  profiles: test
+---
+# Production: Uncomment below to set production-specific configuration
+#spring:
+#  profiles: production
+---

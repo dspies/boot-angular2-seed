@@ -46,3 +46,9 @@ tmp
 gulpfile.js
 gulpfile.js.map
 
+# Build File
+.gradle
+
+# Generated Resources
+/src/main/resources/static
+build

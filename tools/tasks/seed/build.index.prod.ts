@@ -11,7 +11,8 @@ import {
   JS_DEST,
   CSS_PROD_BUNDLE,
   JS_PROD_APP_BUNDLE,
-  JS_PROD_SHIMS_BUNDLE
+  JS_PROD_SHIMS_BUNDLE,
+  RELATIVE_PATHS
 } from '../../config';
 const plugins = <any>gulpLoadPlugins();
 
@@ -41,7 +42,7 @@ function injectCss() {
 function transformPath() {
   return function(filepath: string) {
     let path: Array<string> = normalize(filepath).split(sep);
-    arguments[0] = APP_BASE + path.slice(3, path.length).join(sep) + `?${Date.now()}`;
+    arguments[0] = (RELATIVE_PATHS ? '' : APP_BASE) + path.slice(3, path.length).join(sep) + `?${Date.now()}`;
     return slash(plugins.inject.transform.apply(plugins.inject.transform, arguments));
   };
 }

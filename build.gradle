@@ -1,0 +1,87 @@
+buildscript {
+  ext {
+    springBootVersion = '1.3.3.RELEASE'
+  }
+  repositories {
+    mavenCentral()
+    maven { url "https://plugins.gradle.org/m2/" }
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    classpath 'com.moowork.gradle:gradle-gulp-plugin:0.12'
+  }
+}
+
+plugins {
+  id "com.moowork.node" version "0.12"
+  id "com.moowork.gulp" version "0.12"
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot'
+apply plugin: 'com.moowork.gulp'
+
+jar {
+  baseName = 'boot2AngularSeed'
+  version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+  mavenCentral()
+  maven { url "https://repo.spring.io/snapshot" }
+  maven { url "https://repo.spring.io/milestone" }
+}
+
+dependencies {
+  compile('org.springframework.boot:spring-boot-devtools')
+  compile('org.springframework.boot:spring-boot-starter-web')
+  compile('org.springframework.boot:spring-boot-starter-actuator')
+  testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+
+eclipse {
+  classpath {
+    containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+    containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+  }
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.12'
+}
+
+ext.springProfilesActive = 'default'
+
+task dev << {
+  println 'Running DEVELOPMENT assets'
+}
+
+task prod << {
+  println 'Running PRODUCTION assets'
+}
+
+if (gradle.startParameter.taskNames.contains("dev")) {
+  project.ext.set('springProfilesActive','development')
+} else if (gradle.startParameter.taskNames.contains("prod")) {
+  project.ext.set('springProfilesActive','production')
+} else {
+  project.ext.set('springProfilesActive','default')
+}
+
+bootRun {
+  addResources = true
+  environment 'spring.profiles.active', project.springProfilesActive
+}
+
+dev.finalizedBy bootRun
+prod.finalizedBy bootRun
+
+gulp {
+  colors = true
+}
+
+jar.dependsOn "gulp_build.prod"

@@ -49,6 +49,8 @@ gulp.task('build.prod', (done: any) =>
               'build.bundles',
               'build.bundles.app',
               'build.index.prod',
+              'clean.deploy',
+              'build.deploy.prod',
               done));
 
 // --------------
