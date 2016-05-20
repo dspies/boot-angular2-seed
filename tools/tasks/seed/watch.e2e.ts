@@ -1,3 +1,3 @@
-import {watch} from '../../utils';
+import { watch } from '../../utils';
 
-export = watch('build.e2e')
+export = watch('e2e.build.test');

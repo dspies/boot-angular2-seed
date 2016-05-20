@@ -1,19 +1,20 @@
 import * as gulp from 'gulp';
 import * as gulpLoadPlugins from 'gulp-load-plugins';
-import {join, sep, normalize} from 'path';
+import { join, sep, normalize } from 'path';
 import * as slash from 'slash';
-import {templateLocals} from '../../utils';
+
 import {
   APP_BASE,
-  APP_SRC,
   APP_DEST,
+  APP_SRC,
   CSS_DEST,
-  JS_DEST,
   CSS_PROD_BUNDLE,
+  JS_DEST,
   JS_PROD_APP_BUNDLE,
-  JS_PROD_SHIMS_BUNDLE,
-  RELATIVE_PATHS
+  JS_PROD_SHIMS_BUNDLE
 } from '../../config';
+import { templateLocals } from '../../utils';
+
 const plugins = <any>gulpLoadPlugins();
 
 export = () => {
@@ -22,7 +23,7 @@ export = () => {
     .pipe(injectCss())
     .pipe(plugins.template(templateLocals()))
     .pipe(gulp.dest(APP_DEST));
-}
+};
 
 function inject(...files: Array<string>) {
     return plugins.inject(gulp.src(files, { read: false }), {
@@ -42,7 +43,7 @@ function injectCss() {
 function transformPath() {
   return function(filepath: string) {
     let path: Array<string> = normalize(filepath).split(sep);
-    arguments[0] = (RELATIVE_PATHS ? '' : APP_BASE) + path.slice(3, path.length).join(sep) + `?${Date.now()}`;
+    arguments[0] = APP_BASE + path.slice(3, path.length).join(sep) + `?${Date.now()}`;
     return slash(plugins.inject.transform.apply(plugins.inject.transform, arguments));
   };
 }
