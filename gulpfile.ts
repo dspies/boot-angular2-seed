@@ -8,6 +8,28 @@ import { loadTasks } from './tools/utils';
 loadTasks(SEED_TASKS_DIR);
 loadTasks(PROJECT_TASKS_DIR);
 
+gulp.task('deploy.prod', (done: any) =>
+  runSequence('clean.boot',
+              'build.prod',
+              'deploy.boot',
+              done));
+
+gulp.task('deploy.prod.watch', (done: any) =>
+  runSequence('deploy.prod',
+              'watch.boot.prod',
+              done));
+
+gulp.task('deploy.dev', (done: any) =>
+  runSequence('clean.boot',
+              'build.dev',
+              'deploy.boot',
+              done));
+
+gulp.task('deploy.dev.watch', (done: any) =>
+  runSequence('deploy.dev',
+              'watch.boot.dev',
+              done));
+
 gulp.task('build.dev', (done: any) =>
   runSequence('clean.all',
               'clear.caches',

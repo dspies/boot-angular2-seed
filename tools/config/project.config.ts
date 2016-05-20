@@ -24,6 +24,10 @@ export class ProjectConfig extends SeedConfig {
     return join(process.cwd(), this.TOOLS_DIR, 'tasks', 'project');
   }
 
+  get BOOT_DEST(): string {
+    return join(this.PROJECT_ROOT, 'srv/main/resources/static');
+  }
+
   get JS_PROD_APP_BUNDLE() {
     return 'app.min.js';
   }

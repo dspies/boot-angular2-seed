@@ -14,13 +14,11 @@ buildscript {
 
 plugins {
   id "com.moowork.node" version "0.12"
-  id "com.moowork.gulp" version "0.12"
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
-apply plugin: 'com.moowork.gulp'
 
 jar {
   baseName = 'boot2AngularSeed'
@@ -80,8 +78,23 @@ bootRun {
 dev.finalizedBy bootRun
 prod.finalizedBy bootRun
 
-gulp {
-  colors = true
-}
 
-jar.dependsOn "gulp_build.prod"
+dev.dependsOn "npm_run_deploy.dev"
+prod.dependsOn "npm_run_deploy.prod"
+jar.dependsOn "npm_run_deploy.prod"
+
+sourceSets {
+    main {
+        java {
+            srcDir 'srv/main/java'
+        }
+        resources {
+            srcDir 'srv/main/resources'
+        }
+    }
+    test {
+        java {
+            srcDir 'srv/test/java'
+        }
+    }
+}
