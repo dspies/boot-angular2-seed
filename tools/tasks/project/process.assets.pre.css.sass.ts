@@ -30,7 +30,8 @@ function processComponentScss() {
 
   let sassSrc = [
     join(TMP_DIR, '**', '*.scss'),
-    '!' + join(TMP_DIR, 'assets', '**', '*.scss')
+    '!' + join(TMP_DIR, 'assets', '**', '*.scss'),
+    '!' + join(TMP_DIR, 'node_modules', '**', '*.scss')
   ];
 
   return gulp.src(sassSrc, {base: TMP_DIR})
