@@ -29,7 +29,11 @@ const config = {
   onPrepare: function() {
     const SpecReporter = require('jasmine-spec-reporter');
     // add jasmine spec reporter
-    jasmine.getEnv().addReporter(new SpecReporter({ displayStacktrace: true }));
+    jasmine.getEnv().addReporter(new SpecReporter({
+      displayStackTrace: false,
+      displaySpecDuration: true,
+      displayFailuresSummary: false
+    }));
 
     browser.ignoreSynchronization = false;
   },

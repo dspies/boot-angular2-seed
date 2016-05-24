@@ -16,8 +16,6 @@ let ANGULAR_PROTRACTOR_CONFIG = () => {
 };
 
 export = (done: any) => {
-  console.log(ANGULAR_PROTRACTOR_CONFIG());
-
   gulp
     .src('./dist/dev/**/*.e2e-spec.js')
     .pipe(plugins.angularProtractor(ANGULAR_PROTRACTOR_CONFIG()))
